@@ -5,7 +5,7 @@ function Get-AzureADNestedGroupMembers
     [parameter(Mandatory, Position = 0)]
     $Groups,
     [parameter(Mandatory)]
-    [ValidateSet('Users', 'Devices')]
+    [ValidateSet('Users', 'Devices', 'Groups')]
     $ObjectType
   )
   function Get-AzureADNestedGroupMembersInLine
@@ -65,6 +65,10 @@ function Get-AzureADNestedGroupMembers
             elseif ($Member.ObjectType -eq 'Group' )
             {
               Write-Verbose "Get-AzureADNestedGroupMembersInLine: process: Nested Group found: $($Member.DisplayName)."
+              if ($ObjectType -eq 'Groups')
+              {
+                $script:List.Add($member)
+              }
               Get-AzureADNestedGroupMembersInLine -Groups $Member.DisplayName -ObjectType $ObjectType -Nested -ErrorAction Stop
             }
             else
