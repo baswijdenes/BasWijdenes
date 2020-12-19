@@ -1,20 +1,20 @@
 $data = @()
 
-$mbxs = get-mailbox -ResultSize unlimited -filter {recipienttypedetails -eq "sharedmailbox"}
+$mbxs = get-mailbox -ResultSize unlimited -filter { recipienttypedetails -eq "sharedmailbox" }
 
 foreach ($mb in $mbxs)
 
 {
 
-    $dataobject = new-object psobject
+    $dataobject = New-Object psobject
 
     $stats = Get-MailboxStatistics -Identity $mb.UserPrincipalName
 
-    $dataobject | add-member -NotePropertyValue $MB.userprincipalname -NotePropertyName UserPrincipalName
+    $dataobject | Add-Member -NotePropertyValue $MB.userprincipalname -NotePropertyName UserPrincipalName
 
-    $dataobject | add-member -NotePropertyValue $mb.displayname -NotePropertyName Displayname
+    $dataobject | Add-Member -NotePropertyValue $mb.displayname -NotePropertyName Displayname
 
-    $dataobject | add-member -NotePropertyValue $stats.totalitemsize -NotePropertyName Totalsize
+    $dataobject | Add-Member -NotePropertyValue $stats.totalitemsize -NotePropertyName Totalsize
 
     switch -Wildcard ($stats.totalitemsize.value)
 
@@ -32,7 +32,7 @@ foreach ($mb in $mbxs)
 
             {
 
-                $dataobject | add-member -NotePropertyValue "MAILBOX LIMIT IS REACHED" -NotePropertyName "Mailbox Limit"
+                $dataobject | Add-Member -NotePropertyValue "MAILBOX LIMIT IS REACHED" -NotePropertyName "Mailbox Limit"
 
             }
 
@@ -40,7 +40,7 @@ foreach ($mb in $mbxs)
 
             {
 
-                $dataobject | add-member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
+                $dataobject | Add-Member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
 
             }
 
@@ -50,7 +50,7 @@ foreach ($mb in $mbxs)
 
         {
 
-            $dataobject | add-member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
+            $dataobject | Add-Member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
 
         }
 
@@ -58,7 +58,7 @@ foreach ($mb in $mbxs)
 
         {
 
-            $dataobject | add-member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
+            $dataobject | Add-Member -NotePropertyValue "Mailbox is ok" -NotePropertyName "Mailbox Limit"
 
         }
 
@@ -68,4 +68,4 @@ foreach ($mb in $mbxs)
 
 }
 
-$data | export-csv C:\temp\totalitemsize_SMBX-V2.csv -NoTypeInformation
+$data | Export-Csv C:\temp\totalitemsize_SMBX-V2.csv -NoTypeInformation
