@@ -1,4 +1,4 @@
-function Get-AzureADGuestUsers
+function Get-AzureADUsers
 {
     [CmdletBinding()]
     param(
@@ -49,7 +49,7 @@ function Get-AzureADGuestUsers
     }
 }
 
-function Remove-AzureADGuestUsers
+function Remove-AzureADUsers
 {
     [CmdletBinding()]
     param(
