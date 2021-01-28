@@ -9,15 +9,15 @@ function Get-AzureADUsers
     begin 
     {
         $filter = 'UserType eq ''{0}''' -f $UserType
-        Write-Verbose "Get-AzureADGuestUsers: begin: Filter: $filter."
+        Write-Verbose "Get-AzureADUsers: begin: Filter: $filter."
         $URL = 'https://graph.microsoft.com/beta/users?$filter=({0})&$select=displayName,userPrincipalName,createdDateTime,signInActivity' -f $filter
     }
     process 
     {
         try
         {
-            Write-Verbose "Get-AzureADGuestUsers: process: Starting search..."
-            $List = New-MSGraphGetRequest -URL $URL
+            Write-Verbose "Get-AzureADUsers: process: Starting search..."
+            $List = Get-Mga -URL $URL
         }
         catch
         {
@@ -26,14 +26,14 @@ function Get-AzureADUsers
     }
     end
     {
-        Write-Verbose "Get-AzureADGuestUsers: end: Running extra check to see if property SignInActivity is available."
+        Write-Verbose "Get-AzureADUsers: end: Running extra check to see if property SignInActivity is available."
         foreach ($L in $List)
         {
             $SignInActivity = $null
             $SignInActivity = $L.psobject.Properties['SignInActivity']
             if ($SignInActivity.Name -eq 'SignInActivity')
             {
-                Write-Verbose "Get-AzureADGuestUsers: end: Property is available in content. Returning output."
+                Write-Verbose "Get-AzureADUsers: end: Property is available in content. Returning output."
                 $PropertyActive = $true
                 break
             }
@@ -73,30 +73,30 @@ function Remove-AzureADUsers
                 if ($null -eq ($User.PsObject.Properties | Where-Object { $_.Name -eq 'SignInActivity' }))
                 {
                     $SignInDate = $null
-                    Write-Verbose 'Remove-AzureADGuestUsers: begin: The property SignInActivity is not available. This could either be because the user has not logged on, or has not logged in for 90 days.'
+                    Write-Verbose 'Remove-AzureADUsers: begin: The property SignInActivity is not available. This could either be because the user has not logged on, or has not logged in for 90 days.'
                     If (([Datetime]$User.createdDateTime).AddDays($DaysOld) -ge (Get-Date))
                     {
-                        Write-Verbose "Remove-AzureADGuestUsers: begin: Account is is created between now and $DaysOld ago. Deletion = False."
+                        Write-Verbose "Remove-AzureADUsers: begin: Account is is created between now and $DaysOld ago. Deletion = False."
                         $Deletion = $false
                     } 
                     else
                     {
-                        Write-Verbose "Remove-AzureADGuestUsers: begin: Account is older than $DaysOld days and will be deleted from AzureAD. Deletion = True."
+                        Write-Verbose "Remove-AzureADUsers: begin: Account is older than $DaysOld days and will be deleted from AzureAD. Deletion = True."
                         $Deletion = $true
                     }  
                 }
                 else 
                 {
-                    Write-Verbose "Remove-AzureADGuestUsers: begin: Login found: $([Datetime]$User.signInActivity.lastSignInDateTime)"
+                    Write-Verbose "Remove-AzureADUsers: begin: Login found: $([Datetime]$User.signInActivity.lastSignInDateTime)"
                     $SignInDate = [Datetime]$User.signInActivity.lastSignInDateTime
                     If (([Datetime]$User.signInActivity.lastSignInDateTime) -ge (Get-Date).AddDays(-$DeleteAfterDays))
                     {
-                        Write-Verbose "Remove-AzureADGuestUsers: begin: LastLogin is less than 30 days ago. Deletion = False."
+                        Write-Verbose "Remove-AzureADUsers: begin: LastLogin is less than 30 days ago. Deletion = False."
                         $Deletion = $false
                     }
                     else 
                     {
-                        Write-Verbose "Remove-AzureADGuestUsers: begin: LastLogin is longer than 30 days ago. Deletion = True."
+                        Write-Verbose "Remove-AzureADUsers: begin: LastLogin is longer than 30 days ago. Deletion = True."
                         $deletion = $true
                     }
                 }
@@ -127,8 +127,8 @@ function Remove-AzureADUsers
                 {
                     $Filter = $EndUser.UserId
                     $URL = 'https://graph.microsoft.com/v1.0/users/{0}' -f $Filter
-                    Write-Verbose "Remove-AzureADGuestUsers: process: We will delete user $($EndUser.userPrincipalName) on URL: $URL"
-                    Invoke-WebRequest -UseBasicParsing -Headers $headerParams -Uri $url -Method Delete
+                    Write-Verbose "Remove-AzureADUsers: process: We will delete user $($EndUser.userPrincipalName) on URL: $URL"
+                    Delete-Mga -URL $URL
                 }
                 catch 
                 {
@@ -138,7 +138,7 @@ function Remove-AzureADUsers
         }
         else 
         {
-            Write-Verbose "Remove-AzureADGuestUsers: process: ReportOnly equals $ReportOnly... returning output."
+            Write-Verbose "Remove-AzureADUsers: process: ReportOnly equals $ReportOnly... returning output."
         }
     }
     end
