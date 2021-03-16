@@ -27,7 +27,7 @@ begin {
     # Set the certificate parameters
     $CertificateParameters = @{
         Subject = "CN=$($CertificateName),C=Netherlands,L=Lijnden" # CertificateSubject
-        CertStoreLocation = 'Cert:\currentuser\My' # Temporary store location
+        CertStoreLocation = 'Cert:\localmachine\My' # Temporary store location
         KeyAlgorithm = 'RSA' # Algorithm
         KeyLength = 2048 # Length of private key
         KeyExportPolicy = 'Exportable'
@@ -35,6 +35,7 @@ begin {
         Provider = 'Microsoft Enhanced RSA and AES Cryptographic Provider' # use this provider so we can use the private key
         NotBefore = [datetime]::Now
         NotAfter = [datetime]::Now.AddYears($ValidityInYears)
+        #NotAfter = [datetime]::Now.AddDays(30)
         }
     }
 process {
@@ -53,7 +54,7 @@ process {
         }
 end {
     # remove the certificate from the certificate store
-    Remove-Item $NewCertificate.PSPath
+    # Remove-Item $NewCertificate.PSPath
     # Close the file handles to the exported files
     $ExportPfxFile.Dispose()
     $ExportCerFile.Dispose()

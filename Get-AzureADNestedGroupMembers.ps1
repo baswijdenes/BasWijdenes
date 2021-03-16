@@ -43,7 +43,7 @@ function Get-AzureADNestedGroupMembers
         {
           Write-Verbose "Get-AzureADNestedGroupMembersInLine: process: Running script for $Group."
           $Grp = Get-AzureADGroup -Filter "DisplayName eq '$Group'" -ErrorAction Stop
-          $Members = Get-AzureADGroupMember -ObjectId $Grp.ObjectId -ErrorAction Stop
+          $Members = Get-AzureADGroupMember -All $true -ObjectId $Grp.ObjectId -ErrorAction Stop
           foreach ($Member in $Members)
           {
             if ($Member.ObjectType -eq 'User')
