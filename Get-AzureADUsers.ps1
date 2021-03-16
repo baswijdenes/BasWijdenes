@@ -43,7 +43,7 @@ function Get-AzureADUsers {
 function Remove-AzureADUsers {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline)]
         $Users,
         [Parameter(Mandatory = $true)]
         $DaysOld,
