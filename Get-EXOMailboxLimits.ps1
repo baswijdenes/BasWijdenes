@@ -1,4 +1,34 @@
 #region functions
+<#
+.SYNOPSIS
+Get-MailboxLimits will get mailboxes that are over the limit of 50 (by default)
+
+.DESCRIPTION
+Script will show which mailboxes are over the limit in the return.
+When the property OverLimit equals True, the mailbox reached the limit.
+
+.PARAMETER RecipientTypeDetails
+The default is SharedMailbox. You can also use the script for other RecipientTypes.
+
+.PARAMETER MaximumLimit
+The default is 50Gb. You can set the MaximumLimit with Gb only. The script will convert this to bytes.
+You can set this to a lower amount to see which mailboxes are close to 50Gb.
+
+.EXAMPLE
+Get-MailboxLimits
+
+.EXAMPLE
+Get-MailboxLimits -RecipientTypeDetails 'UserMailbox'
+
+.EXAMPLE
+Get-MailboxLimits -MaximumLimit 48
+
+.EXAMPLE
+Get-MailboxLimits -RecipientTypeDetails 'UserMailbox' -MaximumLimit 45
+
+.LINK
+https://bwit.blog/shared-mailboxes-above-50gb-will-need-a-license-in-exchange-online/
+#>
 function Get-MailboxLimits {
     [CmdletBinding()]
     param (

@@ -1,3 +1,4 @@
+#region functions
 <#
 .DESCRIPTION
 Long description
@@ -19,6 +20,9 @@ This is the WorkSpaceKey.
 .EXAMPLE
 $servers = Get-ADComputer -Filter {operatingsystem -like "*server*"}
 Update-OMSWorkSpaceKey -Servers $Servers -WorkSpaceID 'XXXXXXXXXXXXXXXXXX' -WorkSpaceKey 'XXXXXXXXXXXXXXXXXX'
+
+.LINK
+https://bwit.blog/bulk-update-oms-workspace-key-powershell/
 #>
 function Update-OMSWorkSpaceKey
 {
@@ -64,3 +68,4 @@ function Update-OMSWorkSpaceKey
         return "Script finished updating keys."
     }
 }
+#endregion

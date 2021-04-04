@@ -1,3 +1,4 @@
+#region functions
 <#
 .DESCRIPTION
 This script will see if there is a UserPhoto per mailbox.
@@ -14,6 +15,9 @@ Get-O365UserPhoto -Verbose
 
 $Mailboxes = Get-Mailbox -RecipientTypeDetails UserMailbox
 Get-O365UserPhoto -Mailboxes $Mailboxes
+
+.LINK
+https://bwit.blog/office-365-profile-picture-powershell/
 #>
 function Get-O365UserPhoto
 {
@@ -78,3 +82,4 @@ function Get-O365UserPhoto
         return $365UserPhotos
     }
 }
+#endregion

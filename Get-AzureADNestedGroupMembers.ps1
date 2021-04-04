@@ -1,3 +1,26 @@
+#region functions
+<#
+.SYNOPSIS
+Get AzureAD Group Members including nested groups in AzureAD
+
+.DESCRIPTION
+Script has an inline function to re-call itself to search for nested group members
+
+.PARAMETER Groups
+The Group you want to get the members from
+
+.PARAMETER ObjectType
+ObjectType can be 3 things:
+Users
+Devices
+Groups
+
+.EXAMPLE
+Get-AzureADNestedGroupMembers -Groups GROUPNAME -ObjectType Users
+
+.LINK
+https://bwit.blog/how-to-get-azuread-group-members-nested-groups-in-powershell/
+#>
 function Get-AzureADNestedGroupMembers
 {
   [CmdletBinding()]
@@ -93,3 +116,4 @@ function Get-AzureADNestedGroupMembers
   Write-Verbose "Get-AzureADNestedGroupMembers: end: Finished search for $ObjectType."
   return  $script:List
 }
+#endregion

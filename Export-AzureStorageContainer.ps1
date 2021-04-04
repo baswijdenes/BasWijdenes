@@ -85,6 +85,9 @@ To AzTable preformatted CSV:
         -Filename 'testfile' `
         -IsAlreadyInCSVFormat `
         -Verbose
+
+        .LINK
+        
     #>
 function Export-AzureStorageContainer
 {
