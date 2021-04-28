@@ -50,7 +50,7 @@ function Get-MgaSharePointFiles {
         return $SPItems
     }
 }
-function Download-MgaSharePointFiles {
+function Start-MgaDownloadSharePointFiles {
     [CmdletBinding()]
     param (
         [parameter(mandatory)]
