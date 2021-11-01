@@ -11,6 +11,9 @@ function New-ManagedIdentityAccessToken {
 
     .NOTES
     Author: Bas Wijdenes
+
+    .LINK
+    https://bwit.blog/how-to-download-a-zip-file-from-an-azure-storage-blob-powershell/
     #>
     [CmdletBinding()]
     param (

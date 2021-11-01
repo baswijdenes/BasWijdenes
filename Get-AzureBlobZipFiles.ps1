@@ -13,6 +13,15 @@ The StorageContainer
 .PARAMETER FileName
 Add the filename including .zip
 
+.PARAMETER Headers
+The headers we created in the tutorial
+
+.PARAMETER BaseDir
+Add the default directory to download to in this parameter
+
+.PARAMETER Unpack
+This parameter is a switch you can use to unpack the zip file
+
 .EXAMPLE
 Get-AzureBlobZipFiles -headers $Headers -Storage 'XXXXXXX' -Container 'XXXXXXX' -BaseDir 'C:\temp' -FileName 'temp.zip' -Verbose
 
@@ -21,6 +30,9 @@ Get-AzureBlobZipFiles -headers $Headers -Storage 'XXXXXXX' -Container 'XXXXXXX' 
 
 .NOTES
 Author: Bas Wijdenes
+
+.LINK
+https://bwit.blog/how-to-download-a-zip-file-from-an-azure-storage-blob-powershell/
 #>
     [CmdletBinding()]
     param (
