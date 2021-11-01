@@ -20,7 +20,7 @@ function Get-MgaSharePointFiles {
         else {
             Write-Verbose "Get-MgaSharePointFiles: begin: TenantName is $TenantName"
         }
-        Write-Verbose "Get-MgaSharePointFiles: begin: Site is $Sitename" 
+        Write-Verbose "Get-MgaSharePointFiles: begin: Site is $Site" 
         $SPURL = 'https://graph.microsoft.com/v1.0/sites/{0}.sharepoint.com:/sites/{1}/' -f $TenantName, $Site
         Write-Verbose "Get-MgaSharePointFiles: begin: SPURL is $SPURL" 
         $SPChildrenURL = "https://graph.microsoft.com/v1.0/sites/{0}/drive/items/root:"
@@ -37,7 +37,7 @@ function Get-MgaSharePointFiles {
             }
         } 
         else {
-            $SPChildrenURL = "$($ChildrenURL)/children"
+            $SPChildrenURL = "$($SPChildrenURL)/children"
         }
     }
     process {
