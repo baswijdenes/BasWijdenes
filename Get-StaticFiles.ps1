@@ -7,38 +7,33 @@ Get-StaticFiles from the Azure Storage Blob: Static
 with this cmdlet you can get the static files that you need for your script. 
 For example a HTML template.
 
-.PARAMETER ScriptName
-This is the scriptname (which should be defined in the ParamBlock with Parameter: $Scriptname)
-
-.PARAMETER SASToken
-do not touch this parameter! 
-
 .PARAMETER Storage
-do not touch this parameter! 
+The StorageAccountName 
 
 .PARAMETER Container
-do not touch this parameter!
+The StorageContainer
 
 .PARAMETER FileName
 Add a file name if you're only looking for 1 file.
-If you leave this empty it will search for all files with name prefix $scriptname and return them in a CustomObject under Filename, Content:
+If you leave this empty it will search for all files and return them in a CustomObject under Filename, Content:
 
 Filename                                                     Content
 --------                                                     -------
-CR-Check-MailboxFolders-Permissions_Email_EmailTemplate.html <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">...
+XXXXXXXXXXXXXXXXXXXXXXX.html <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">...
 HybridWorker_Suspended_Import-PSSession.png                  PNG...
 
 .EXAMPLE
-$Scriptname = 'CR-Check-MailboxFolders-Permissions_Email'
-Get-StaticFiles
+
+Get-StaticFiles -headers $headers -Storage 'XXXXXX' -Container 'XXXXXX'
 
 Filename                                                     Content
 --------                                                     -------
-CR-Check-MailboxFolders-Permissions_Email_EmailTemplate.html <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">...
+XXXXXXXXXXXXXXXXXXXXXXX.html <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">...
+HybridWorker_Suspended_Import-PSSession.png                  PNG...
 
 .EXAMPLE
-$Scriptname = 'CR-Check-MailboxFolders-Permissions_Email'
-Get-StaticFiles -Filename 'CR-Check-MailboxFolders-Permissions_Email'
+$filename = 'HybridWorker_Suspended_Import-PSSession.png'
+Get-StaticFiles -headers $headers -Storage 'XXXXXX' -Container 'XXXXXX' -Filename
 
 <HTML Content>
 
