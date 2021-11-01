@@ -95,7 +95,7 @@ Author: Bas Wijdenes
             Write-Verbose "Get-StaticFiles: process: Filecount: $($Files.count)"  
             foreach ($File in $Files) {
                 Write-Verbose "Get-StaticFiles: process: Starting Get-StaticFiles | filename: $File"  
-                $Content = Get-StaticFiles -Filename $File -Storage $Storage -Container $Container
+                $Content = Get-StaticFiles -Filename $File -Storage $Storage -Container $Container -Headers $Headers
                 $Object = [PSCustomObject]@{
                     Filename = $File
                     Content  = $Content
