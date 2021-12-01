@@ -65,7 +65,7 @@ function Get-AzureADNestedGroupMembers
         foreach ($Group in $Groups)
         {
           Write-Verbose "Get-AzureADNestedGroupMembersInLine: process: Running script for $Group."
-          $Grp = Get-AzureADGroup -Filter "DisplayName eq '$Group'" -ErrorAction Stop
+          $Grp = Get-AzureADGroup -ObjectId $Group -ErrorAction Stop
           $Members = Get-AzureADGroupMember -All $true -ObjectId $Grp.ObjectId -ErrorAction Stop
           foreach ($Member in $Members)
           {
@@ -92,7 +92,7 @@ function Get-AzureADNestedGroupMembers
               {
                 $script:List.Add($member)
               }
-              Get-AzureADNestedGroupMembersInLine -Groups $Member.DisplayName -ObjectType $ObjectType -Nested -ErrorAction Stop
+              Get-AzureADNestedGroupMembersInLine -Groups $Member.ObjectId -ObjectType $ObjectType -Nested -ErrorAction Stop
             }
             else
             {
@@ -114,6 +114,6 @@ function Get-AzureADNestedGroupMembers
   }
   Get-AzureADNestedGroupMembersInLine -Groups $Groups -ObjectType $ObjectType -ErrorAction Stop
   Write-Verbose "Get-AzureADNestedGroupMembers: end: Finished search for $ObjectType."
-  return  $script:List
+  return $script:List | select -Unique
 }
 #endregion
