@@ -1,4 +1,3 @@
-#region functions
 <#
 .DESCRIPTION
 Long description
@@ -29,7 +28,8 @@ function Update-OMSWorkSpaceKey
     [CmdletBinding()]
     param (
         [Parameter (Mandatory = $true)]
-        $Servers,
+        [string[]]
+        $Server,
         [Parameter (Mandatory = $true)]
         $WorkSpaceID,
         [Parameter (Mandatory = $true)]
@@ -50,8 +50,8 @@ function Update-OMSWorkSpaceKey
     process
     {
         Write-Verbose 'Update-OMSWorkSpaceKey: process: Starting script to invoke scriptblock to serverlist.'
-        foreach ($Server in $Servers)
-        {
+        #foreach ($Srv in $Server)
+        #{
             Write-Verbose "Update-OMSWorkSpaceKey: process: Invoke-Command on srv: $Server"
             try
             {
@@ -61,11 +61,10 @@ function Update-OMSWorkSpaceKey
             {
                 continue
             }
-        }
+        #}
     }
     end
     {
         return "Script finished updating keys."
     }
 }
-#endregion

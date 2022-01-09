@@ -30,6 +30,36 @@ An example
 General notes
 #>
 function Upload-MgaSharePointFiles {
+    <#
+.SYNOPSIS
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ItemPath
+Parameter description
+
+.PARAMETER Item
+Parameter description
+
+.PARAMETER Type
+Parameter description
+
+.PARAMETER TenantName
+Parameter description
+
+.PARAMETER Site
+Parameter description
+
+.PARAMETER ChildFolders
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
     [CmdletBinding()]
     param (
         [Parameter(mandatory = $true, ParameterSetName = 'ItemPath')]
@@ -92,8 +122,8 @@ function Upload-MgaSharePointFiles {
         if ($Type -eq 'OneDrive') {
             $global:SPURL = $SPURL.Replace('/sites/', '/drives/')
             $global:SPChildrenURL = $SPChildrenURL.Replace('/sites/', '/drives/')
-            $global:SPURL = $SPURL.Replace('/drive/','')
-            $global:SPChildrenURL = $SPChildrenURL.Replace('/drive/','')
+            $global:SPURL = $SPURL.Replace('/drive/', '')
+            $global:SPChildrenURL = $SPChildrenURL.Replace('/drive/', '')
         } 
     }
     process {
