@@ -14,6 +14,7 @@ function New-ManagedIdentityAccessToken {
 
     .LINK
     https://bwit.blog/how-to-download-a-zip-file-from-an-azure-storage-blob-powershell/
+    https://baswijdenes.com/how-to-start-a-runbook-on-specific-hybrid-worker-azure-automation/
     #>
     [CmdletBinding()]
     param (
