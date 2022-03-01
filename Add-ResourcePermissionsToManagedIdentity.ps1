@@ -46,7 +46,7 @@ function Add-ResourcePermissionsToManagedIdentity {
         [guid]
         $AppServicePrincipalObjectId,
         [Parameter(Mandatory = $true)]
-        [ValidatePattern(".*\..*\..*")]
+        # [ValidatePattern(".*\.*\.*")]
         [string[]]
         $Permissions,
         [Parameter(Mandatory = $true)]
