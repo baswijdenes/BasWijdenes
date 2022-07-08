@@ -26,7 +26,7 @@ param(
 begin {
     # Set the certificate parameters
     $CertificateParameters = @{
-        Subject = "CN=$($CertificateName),C=Netherlands,L=Lijnden" # CertificateSubject
+        Subject = "CN=$($CertificateName),C=Netherlands,L=Heerhugowaard" # CertificateSubject
         CertStoreLocation = 'Cert:\localmachine\My' # Temporary store location
         KeyAlgorithm = 'RSA' # Algorithm
         KeyLength = 2048 # Length of private key
