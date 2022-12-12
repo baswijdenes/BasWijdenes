@@ -1,0 +1,62 @@
+#region Variables
+
+$AzSubscriptionId = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+$RgName = 'rgName'
+$Storage = 'storageAccountName'
+$StorageContainer = 'containerName'
+$PathToModules = 'C:\Path\To\Modules'
+$Path = 'C:\Path\To\ZipFiles'
+$AutomationAccountName = 'AutomationAccountName'
+$ModuleName = "Optimized.Mga"
+
+#endregion Variables
+#region Convert to Zip files
+
+Get-ChildItem -Path $PathToModules -Resurce | Compress-Archive -DestinationPath "$Path\$($_.Name).zip" -Force
+
+#endregion Convert to Zip files
+#region Download from PowerShell Gallery
+
+$Versions = Invoke-RestMethod -Uri "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='$ModuleName'&`$skip=0&`$top=40"
+$LatestURL = $Versions.Content.src | Sort-Object -Descending | Select-Object -First 1
+Invoke-RestMethod -Uri $LatestURL -OutFile "$ModuleName.zip" -ContentType 'application/octet-stream'
+
+#endregion Download from PowerShell Gallery
+#region Login to Azure
+
+# Connect to Azure
+Connect-AzAccount -Identity
+
+# Set the AzContext to the correct subscription (if you have more than 1)
+$null = Set-AzContext -SubscriptionId $AzSubscriptionId
+
+#endregion Login to Azure
+#region Upload zip to blob
+
+# Get the StorageAccount and context
+$storageAccount = Get-AzStorageAccount -ResourceGroupName $rgName -AccountName $Storage
+$CTX = $storageAccount.Context
+
+# Get Zipped files (can be multiple this way)
+$Items = Get-ChildItem -Path $Path
+foreach ($Item in $Items) {
+    # By using -Force we will overwrite items in Blob
+    $Item | Set-AzStorageBlobContent -Container $StorageContainer -Context $CTX -Force
+}
+#endregion Upload zip to blob
+
+#region Import zip in Azure Automation / Virtual Machine
+$MainURL = "https://$Storage.blob.core.windows.net/$StorageContainer"
+foreach ($Item in $Items) {
+    # Let's build the URL first
+    $URL = "$MainURL/$($Item.Name)"
+
+    # Import the module in Azure Automation
+    New-AzAutomationModule -AutomationAccountName $AutomationAccountName -Name $Item.BaseName -Path $URL -ResourceGroupName $RgName
+
+    # Import the module on a virtual machine
+    Invoke-RestMethod -Uri $URL -OutFile "C:\temp\$($Item.Name)" -ContentType 'application/octet-stream'
+    Expand-Archive -Path "C:\temp\$($Item.Name)" -DestinationPath "$($PSHome)\modules\$($Item.BaseName)"
+}
+
+#endregion Import zip in Azure Automation / Virtual Machine
