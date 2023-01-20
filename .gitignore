@@ -1,3 +1,4 @@
 Ignore
 workspace.code-workspace
 .vscode
+AFileIWantToIgnore.txt
