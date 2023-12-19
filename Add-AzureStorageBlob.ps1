@@ -1,4 +1,4 @@
-function Add-StorageBlob {
+function Add-AzureStorageBlob {
     <#
     .SYNOPSIS
     Uploads files to Azure Storage Blob
@@ -22,7 +22,7 @@ function Add-StorageBlob {
     Recurse through subfolders
     
     .EXAMPLE
-    Update-StorageBlob -Path "C:\Temp\MyFolder" -StorageContainer "mycontainer" -StorageAccount "mystorageaccount" -ResourceGroup "myresourcegroup" -Recurse $true
+    Add-AzureStorageBlob -Path "C:\Temp\MyFolder" -StorageContainer "mycontainer" -StorageAccount "mystorageaccount" -ResourceGroup "myresourcegroup" -Recurse $true
     
     .NOTES
     Author: Bas Wijdenes
