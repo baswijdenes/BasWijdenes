@@ -1,4 +1,4 @@
-function Update-StorageBlob {
+function Add-StorageBlob {
     <#
     .SYNOPSIS
     Uploads files to Azure Storage Blob
