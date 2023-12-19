@@ -54,7 +54,6 @@ function Add-AzureStorageBlob {
     $CTX = $storageAccount.Context
     try {
         if ($Recurse -eq $true) {
-            # Write-Output 'recurse equals $true'
             Get-ChildItem -Path $Path -File -Recurse | Set-AzStorageBlobContent -Container ($StorageContainer) -Context $CTX -Force
             $Items = Get-ChildItem -Path $Path -Recurse
         }
@@ -78,7 +77,7 @@ function Add-AzureStorageBlob {
                 }
                 Write-Verbose "Uploading $($Item.BaseName) to $($StorageContainer)"
                 try {
-                    $null = $Item | Set-AzStorageBlobContent -Container $($StorageContainer) -Context $CTX -Force
+                    $null = $Item | Set-AzStorageBlobContent -Container $($StorageContainer) -Context $CTX -Force -ErrorAction Stop
                     $Object.Successful = $true
                 }
                 catch {

@@ -69,12 +69,7 @@ function Import-AutomationRunbook {
         if ($Runbookname -like '*.ps1') {
             $RunbookName = $RunbookName -replace '.ps1', ''
         }
-        $ImportedItems = [System.Collections.Generic.List[Object]]::new()
         Write-Verbose "Importing runbook $($RunbookName) in $($AutomationAccountName)"
-        $Object = [PSCustomObject]@{
-            Item       = $RunbookName
-            Successful = $null
-        }
         $DirectBlobUri = "https://$($StorageAccountName).blob.core.windows.net/$($StorageContainer)/{0}$SASToken" -f "$($RunbookName).ps1"
         if ($RuntimeVersionRunbook -eq '7.1') {
             $JsonPayLoad = @{
@@ -115,19 +110,15 @@ function Import-AutomationRunbook {
         try {
             $InvokeAzRestMethodSplat.Method = 'PUT'
             $Invoke = Invoke-AzRestMethod @InvokeAzRestMethodSplat
-            $Object.Successful = $true
         }
         catch {
-            Write-Warning "Failed to create runbook $($RunbookName): $($_.Exception.Message)"
-            $Object.Successful = $false
+            throw "Failed to create runbook $($RunbookName): $($_.Exception.Message)"
         }
         if (-not(($Invoke.StatusCode -eq 200) -or ($Invoke.StatusCode -eq 201))) {
-            Write-Warning "Failed to create runbook $($RunbookName) (Failed by StatusCode: $($Invoke.StatusCode))"
-            $Object.Successful = $false
+            throw "Failed to create runbook $($RunbookName) (Failed by StatusCode: $($Invoke.StatusCode)) Content: $($Invoke.Content)"
         }
     } 
     end {
-        $ImportedItems.Add($Object)    
-        return $ImportedItems
+        return "Uploaded $RunbookName"
     }
 }
